@@ -6,6 +6,7 @@
 
 function sumPair(array, target) {
     const pairs = [];
+
     if (Array.isArray(array)) {
         array = Array.from(new Set(array));
         array.sort((a, b) => a - b);
@@ -17,23 +18,8 @@ function sumPair(array, target) {
             let sum = array[start] + array[end];
 
             if (sum === target) {
-                pairs.push([array[start], array[end]]);
-                array.splice(start, 1)
-                array.splice(end - 1, 1)
-                
-                let isContinue = false;
-                if (array[end] === undefined) {
-                    end = array.length - 1;
-                    isContinue = true;
-                }
-    
-                if (array[start] === undefined) {
-                    start = 0;
-                    isContinue = true;
-                }
-                               
-                if (isContinue) continue;
-                start--;
+                pairs.push([array[start], array[end]]);	
+                start++;
                 end--;
             } else if (sum < target) {
                 start++;
@@ -45,10 +31,10 @@ function sumPair(array, target) {
 
     return pairs;
 }
-
+1
 //const res = sumPair([2, 4, 3, 5, 3, 1, 9], 6);
 
-const res = sumPair([10, 5, 1, 3, 2, 8, 6], 11);
+const res = sumPair([2, 4, 3, 5, 3, 1, 9], 6);
 
 
 console.log(res);
