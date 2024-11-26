@@ -9,10 +9,26 @@ const userService = {
 	],
 
 	getFilterUsers: function() {
-		return this.users.filter(function (user) {
+		const filterCallback = function (user) {
 			return user.status === this.currentFilter;
-		});
+		};
+		
+		return this.users.filter(filterCallback.bind(userService));
 	}
 };
+
+//три способа пофиксить
+//1
+//const filterCallback = function (user) {
+// 	return user.status === this.currentFilter;
+// };
+
+// return this.users.filter(filterCallback.bind(userService));
+
+//2
+//return this.users.filter((user) => user.status === this.currentFilter);
+
+//3
+//that = this
 
 console.log(userService.getFilterUsers());
