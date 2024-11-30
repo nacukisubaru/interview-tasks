@@ -63,6 +63,32 @@ const atm = (sum, limits) => {
 	return banknotesList;
 }
 
+//Решение без итерации банкнот более математическое
+const atm2 = (sum, limits) => {
+	const banknotesList = {};
+	const sortedBanknotes = Object.entries(limits).sort((a, b) => b[0] - a[0]);
+	sortedBanknotes.forEach(([banknote, count]) => {
+		banknote = Number(banknote);
+		if (sum >= banknote && count) {
+			const banknotesCount = Math.min(Math.floor(sum / banknote), count);
+
+			if (banknotesCount) {
+				sum -= banknote * banknotesCount;
+				limits[banknote] = count - banknotesCount;
+				banknotesList[banknote] = banknotesCount;
+			}
+		} else if (!count) {
+			return;
+		}
+	});
+
+	if (sum > 0 || !Object.keys(banknotesList).length) {
+		throw new Error('Я не щмогла');
+	}
+
+	return banknotesList;
+}
+
 console.log(atm(16950, limits));
 console.log(atm(2000, limits));
 console.log(atm(5200, limits));
