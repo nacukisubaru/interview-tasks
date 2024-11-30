@@ -24,7 +24,8 @@ const limits = {
 
 const atm = (sum, limits) => {
 	const banknotesList = {};
-	Object.entries(limits).reverse().forEach(([banknote, count]) => {
+	const sortedBanknotes = Object.entries(limits).sort((a, b) => b[0] - a[0]);
+	sortedBanknotes.forEach(([banknote, count]) => {
 		banknote = Number(banknote);
 		if (sum >= banknote && count) {
 			let totalBanknotes = 0;
