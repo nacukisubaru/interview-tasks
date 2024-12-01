@@ -4,6 +4,10 @@
 //isSimilar([0,5,1], [1,5,8]) === false
 
 const isSimilar = (array1, array2) => {
+	if (array1.length !== array2.length) {
+		return false;
+	}
+	
 	const numbers = new Set();
 	array2.forEach((item) => {
 		numbers.add(item);
@@ -15,10 +19,6 @@ const isSimilar = (array1, array2) => {
 		if (similar === false) {
 			break;
 		}
-	}
-	
-	if (array1.length !== array2.length) {
-		return false;
 	}
 
 	return similar
