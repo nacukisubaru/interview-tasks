@@ -21,35 +21,26 @@ function test() {
 
 function retry(promiseFn, config) {
     let retryCounter = 0;
-    let isSuccess = false;
 
     return new Promise((resolve, rejected) => {
         function excutePromise() {
             promiseFn()
                 .then((result) => {
-                    if (result) {
-                        isSuccess = true;
-                        resolve(result);
-                    }
+                    resolve(result);
                 })
                 .catch((error) => {
-                    if (error) {
+                    if (retryCounter < config.count) {
+                        setTimeout(
+                            () => {
+                                retryCounter++;
+                                excutePromise();
+                            },
+                            config.delay(config.count)
+                        );
+                    } else {
                         rejected(new Error(error));
-                        recurtionRetry();
                     }
                 });
-        }
-
-        function recurtionRetry() {
-            if (retryCounter !== config.count && !isSuccess) {
-                setTimeout(
-                    () => {
-                        retryCounter++;
-                        excutePromise();
-                    },
-                    config.delay(config.count)
-                );
-            }
         }
 
         excutePromise();
