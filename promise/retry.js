@@ -34,7 +34,7 @@ function retry(promiseFn, config) {
                 })
                 .catch((error) => {
                     if (error) {
-                        rejected(error);
+                        rejected(new Error(error));
                         recurtionRetry();
                     }
                 });
@@ -47,7 +47,7 @@ function retry(promiseFn, config) {
                         retryCounter++;
                         excutePromise();
                     },
-                    config.delay()
+                    config.delay(config.count)
                 );
             }
         }
@@ -56,6 +56,6 @@ function retry(promiseFn, config) {
     })
 }
 
-retry(test, { count: 5, delay: delay = (retrycount) => retrycount * 1000 })
+retry(test, { count: 5, delay: (retrycount) => retrycount * 1000 })
     .then((res) => console.log('res', res))
     .catch((err) => console.log('err', err))
