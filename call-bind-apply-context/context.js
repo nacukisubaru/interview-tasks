@@ -1,5 +1,24 @@
 //задача про контекст когда в функции вызывается что то сверху или ты ждешь что оно будет но будет не одно
 //что выведет код?
+// const userService = {
+// 	currentFilter: 'active',
+
+// 	users: [
+// 		{name: 'Alex', status: 'active'},
+// 		{name: 'Nick', status: 'deleted'},
+// 	],
+
+// 	getFilterUsers: function() {
+// 		const filterCallback = function (user) {
+// 			return user.status === this.currentFilter;
+// 		};
+		
+// 		return this.users.filter(filterCallback.bind(userService));
+// 	}
+// };
+
+"use strict";
+
 const userService = {
 	currentFilter: 'active',
 
@@ -9,11 +28,12 @@ const userService = {
 	],
 
 	getFilterUsers: function() {
+		console.log(this)
 		const filterCallback = function (user) {
 			return user.status === this.currentFilter;
 		};
 		
-		return this.users.filter(filterCallback.bind(userService));
+		return this.users.filter(filterCallback);
 	}
 };
 
