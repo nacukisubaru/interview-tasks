@@ -16,30 +16,7 @@
  * @return {string}
  */
 //способ brute force
-var longestPalindrome = function (string) {
-	if (string.length) {
-		let palindromStr = string[0];
-
-		for (let inc = 0; inc < string.length; inc++) {
-
-			const nextItem = string[inc + 1];
-			if (nextItem) {
-				palindromStr += nextItem;
-
-				if (isPalindrome(palindromStr)) {
-					return palindromStr;
-				}
-			}
-		}
-	}
-};
-
-/**
- * @param {string} string
- * @return {string}
- */
-//способ brute force
-var longestPalindrome2 = function (string) {
+var longestPalindromeBrute = function (string) {
     let longest = ""; // Переменная для хранения самого длинного палиндрома
 
     // Перебираем все возможные начальные позиции
@@ -66,4 +43,47 @@ function isPalindrome(str) {
     return str === str.split('').reverse().join('');
 }
 
-console.log(longestPalindrome2('babad'));
+//рекурсия
+function longestPalindrome(s) {
+	
+	console.log(s.substring(1))
+    if (s === s.split('').reverse().join('')) {
+        return s;
+    }
+
+    const left = longestPalindrome(s.substring(1));
+    const right = longestPalindrome(s.substring(0, s.length - 1));
+	
+
+    return left.length > right.length ? left : right;
+}
+
+//рассширение от центра
+function longestPalindromeСenter(s) {
+    let start = 0, end = 0;
+
+    function expandAroundCenter(left, right) {
+        while (left >= 0 && right < s.length && s[left] === s[right]) {
+            left--;
+            right++;
+        }
+        return right - left - 1; // Длина палиндрома
+    }
+
+    for (let i = 0; i < s.length; i++) {
+        let len1 = expandAroundCenter(i, i); // Палиндром с одним центром
+        let len2 = expandAroundCenter(i, i + 1); // Палиндром с двумя центрами
+        let len = Math.max(len1, len2);
+
+        if (len > end - start) {
+            start = i - Math.floor((len - 1) / 2);
+            end = i + Math.floor(len / 2);
+        }
+    }
+
+    return s.substring(start, end + 1);
+}
+
+
+// Пример использования
+console.log(longestPalindrome("bagdatababagdat"));
